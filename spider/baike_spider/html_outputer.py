@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-class HtmlOuputer(object):
+class HtmlOutputer(object):
     """docstring for HtmlOuputer"""
 
     def __init__(self):
@@ -17,7 +17,7 @@ class HtmlOuputer(object):
         fout.write("<html>")
         fout.write("<body>")
         fout.write("<table>")
-        for data in datas:
+        for data in self.datas:
             fout.write("<tr>")
             fout.write("<td>%s</td>" % data["title"].encode("utf-8"))
             fout.write("<td>%s</td>" % data["url"])

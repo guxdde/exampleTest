@@ -12,7 +12,7 @@ class UrlManager(object):
     def add_new_url(self, new_url):
         if new_url is None:
             return
-        if new_url not in self.new_urls and new_url　not in self.old_urls:
+        if new_url not in self.new_urls and new_url not in self.old_urls:
             self.new_urls.add(new_url)
 
     # 向url管理器中批量添加url
