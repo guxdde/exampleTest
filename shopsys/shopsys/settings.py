@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for shopsys project.
 
@@ -76,8 +77,17 @@ WSGI_APPLICATION = 'shopsys.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'shopsys',  # 数据库名
+        'USER': 'guxdde',  # 数据库用户名
+        'PASSWORD': '123456',  # 数据库用户密码，为安全起见，应从系统环境变量中读取
+        # 例如：os.environ['SHOPSYS_DB_PASS']
+        'HOST': '127.0.0.1',  # 数据库服务器地址
+        'PORT': '3306',  # 数据库端口
+        'TEST': {},  # 测试数据库配置
+
     }
 }
 
