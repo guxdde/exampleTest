@@ -64,4 +64,10 @@ class Product(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return
+        return reverse('catalog_category', args=(self.slug,))
+
+    def sale_price(self):
+        if self.old_price > self.price:
+            return self.price
+        else:
+            return None
