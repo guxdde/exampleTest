@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shopsys.utils.context_processors.shopsys',
             ],
         },
     },
@@ -111,5 +112,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-
+STATICFILES_DIRS = (os.path.join(SETTINGS_DIR, 'static'),)
 STATIC_URL = '/static/'
+
+# 用户上传文件位置
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+SITE_NAME = '商购'
+META_KEYWORDS = '网购，电商'
+META_DESCRIPTION = '网上购物'
