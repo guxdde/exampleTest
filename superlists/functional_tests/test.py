@@ -37,18 +37,13 @@ class NewVisitorTest(LiveServerTestCase):
         # 伊迪斯等爱好时使用假蝇做鱼饵钓鱼
         input_box.send_keys('Buy peacock feathers')
 
-        # 他按回车键后，页面更新了
+        # 他按回车键后，被带到了一个新URL
         # 代办事项表格中显示了“1：Buy peacock feathers”
         input_box.send_keys(Keys.ENTER)
-
+        edith_list_url = self.browser.current_url
+        self.assertRegex(edith_list_url, '/lists/.+')
         self.check_for_row_in_list_table('1:Buy peacock feathers')
         time.sleep(10)
-        # table = self.browser.find_element_by_id('id_list_table')
-        # rows = table.find_elements_by_tag_name('tr')
-        # self.assertTrue(
-        # any(row.text == '1:Buy peacock feathers' for row in rows),
-        # "New to-do item did not appear in table--its text was:\n%s" % (table.text,))
-        # self.assertIn('1:Buy peacock feathers', [row.text for row in rows])
 
         # 他输入了“Use peacock feathers to make a fly”（使用孔雀毛做假蝇）
         input_box = self.browser.find_element_by_id('id_new_item')
@@ -57,10 +52,32 @@ class NewVisitorTest(LiveServerTestCase):
         self.check_for_row_in_list_table('1:Buy peacock feathers')
         self.check_for_row_in_list_table(
             '2:Use peacock feathers to make a fly')
-        # table = self.browser.find_element_by_id('id_list_table')
-        # rows = table.find_elements_by_tag_name('tr')
-        # self.assertIn('1:Buy peacock feathers', [row.text for row in rows])
-        # self.assertIn(
-        #     '2:Use peacock feathers to make a fly', [row.text for row in rows])
+
+        # 现在一个叫弗朗西斯等新用户访问了网站
+        # 我们使用一个新浏览器会话
+        # 确保伊迪斯的信息不会从cookie中泄露出来
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+
+        # 弗朗西斯访问首页
+        # 页面中看不到伊迪斯的清单
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Buy peacock feathers', page_text)
+        self.assertNotIn('make a fly', page_text)
+        # 弗朗西斯输入一个新代办事项，新建一个清单
+        # 他不像伊迪斯那样兴趣盎然
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Buy milk')
+        inputbox.send_keys(Keys.ENTER)
+        # 弗朗西斯获得了他的唯一URL
+        francis_list_url = self.browser.current_url
+        self.assertRegex(francis_list_url, '/list/.+')
+        self.assertNotEqual(francis_list_url, edith_list_url)
+        # 这个页面还是没有伊迪斯的清单
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Buy peacock feathers', page_text)
+        self.assertIn('Buy milk', page_text)
+        # 两个人都很满意，去睡觉了
 
         self.fail('Finish the test!')
