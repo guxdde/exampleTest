@@ -41,7 +41,8 @@ class NewVisitorTest(LiveServerTestCase):
         # 代办事项表格中显示了“1：Buy peacock feathers”
         input_box.send_keys(Keys.ENTER)
         edith_list_url = self.browser.current_url
-        self.assertRegex(edith_list_url, '/lists/.+')
+        # Python 2 – then use assertRegexpMatches instead of assertRegex
+        self.assertRegexpMatches(edith_list_url, '/lists/.+')
         self.check_for_row_in_list_table('1:Buy peacock feathers')
         time.sleep(10)
 
@@ -72,7 +73,8 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
         # 弗朗西斯获得了他的唯一URL
         francis_list_url = self.browser.current_url
-        self.assertRegex(francis_list_url, '/list/.+')
+        # Python 2 – then use assertRegexpMatches instead of assertRegex
+        self.assertRegexpMatches(francis_list_url, '/lists/.+')
         self.assertNotEqual(francis_list_url, edith_list_url)
         # 这个页面还是没有伊迪斯的清单
         page_text = self.browser.find_element_by_tag_name('body').text
