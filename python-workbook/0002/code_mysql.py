@@ -23,14 +23,16 @@ def save_to_mysql(file_name):
         for table in tables:
             if 'code' in table:
                 flag = True
-        if flag:
+        if not flag:
             cursor.execute('''CREATE TABLE code (
                 id INT NOT NULL AUTO_INCREMENT,
                 code VARCHAR(10) NOT NULL,
                 PRIMARY KEY(id)
                 )''')
         for code in code_list:
-            cursor.execute("insert into code (code) values(%s);", [code])
+            if len(code) > 0:
+                cursor.execute(
+                    "insert into code (code) values(%s);", [code])
         conn.commit()
     except Exception, e:
         conn.rollback()
